@@ -2,6 +2,9 @@
   "name": "nested-object-validate",
   "version": "1.0.0",
   "main": "./src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json"
+  },
   "author": {
     "email": "alimam01828@gmail.com",
     "name": "al-imam",

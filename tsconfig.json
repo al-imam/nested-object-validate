@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ESNext",
+    "declaration": true,
+    "outDir": "dist/esm",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "declarationDir": "dist/types"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
