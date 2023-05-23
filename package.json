@@ -1,0 +1,16 @@
+{
+  "name": "nested-object-validate",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "author": {
+    "email": "alimam01828@gmail.com",
+    "name": "al-imam",
+    "url": "https://www.github.com/al-imam"
+  },
+  "repository": {
+    "url": "https://www.github.com/al-imam/nested-object-validate"
+  },
+  "dependencies": {
+    "typescript": "^5.0.4"
+  }
+}
