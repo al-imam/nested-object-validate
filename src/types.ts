@@ -2,8 +2,12 @@ type ValidatorType = string | [string, ValidatorCallBack] | ObjectValidator;
 
 type ValidatorCallBack = (
   value: any,
-  validate: (object: any, validators: ValidatorType[]) => boolean
-) => boolean;
+  validate: (
+    object: any,
+    validators: ValidatorType[],
+    error?: string
+  ) => boolean | string
+) => boolean | string;
 
 interface ObjectValidator {
   property: string;

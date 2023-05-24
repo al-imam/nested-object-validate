@@ -1,7 +1,13 @@
 import { FailInterface, ValidatorType, PassInterface } from "./types";
 
-function vs(object: any, validator: ValidatorType[]): boolean {
-  return validate(object, validator, { strict: false }).valid;
+function vs(
+  object: any,
+  validator: ValidatorType[],
+  error?: string
+): boolean | string {
+  const result = validate(object, validator, { strict: false }).valid;
+  if (typeof error === "string" && !result) return error;
+  return result;
 }
 
 function checkCallBack(
