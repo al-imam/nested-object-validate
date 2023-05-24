@@ -12,7 +12,7 @@ interface ObjectValidator {
 
 interface FailInterface {
   missing: string[];
-  invalid: string[];
+  invalid: { property: string; error: string }[];
   valid: false;
   checked: null;
 }

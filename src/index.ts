@@ -60,7 +60,7 @@ function validate(
       if (
         checkCallBack(
           validator[1](object[validator[0]], vs),
-          invalids.push,
+          (e) => invalids.push(e),
           validator[0]
         )
       ) {
@@ -78,7 +78,7 @@ function validate(
       if (
         checkCallBack(
           validator.validate(object[validator.property], vs),
-          invalids.push,
+          (e) => invalids.push(e),
           validator.property
         )
       ) {
