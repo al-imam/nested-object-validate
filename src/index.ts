@@ -4,6 +4,25 @@ function vs(object: any, validator: ValidatorType[]): boolean {
   return validate(object, validator, { strict: false }).valid;
 }
 
+function checkCallBack(
+  value: boolean | string,
+  callback: (v: { property: string; error: string }) => void,
+  name: string
+) {
+  if (typeof value === "boolean") {
+    if (value === true) return true;
+    callback({ property: name, error: "unknown" });
+    return false;
+  }
+
+  if (typeof value === "string") {
+    callback({ property: name, error: value });
+    return false;
+  }
+
+  throw new Error("validation function only can return boolean or string!");
+}
+
 function validate(
   object: any,
   validators: ValidatorType[],
