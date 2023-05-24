@@ -29,7 +29,7 @@ function validate(
   config = { strict: true }
 ): FailInterface | PassInterface {
   const missings: string[] = [];
-  const invalids: string[] = [];
+  const invalids: { property: string; error: string }[] = [];
   const valids: { [key: string]: any } = {};
 
   if (!(object instanceof Object && !Array.isArray(object))) {
@@ -57,13 +57,16 @@ function validate(
         continue;
       }
 
-      if (!validator[1](object[validator[0]], vs)) {
-        invalids.push(validator[0]);
-        continue;
+      if (
+        checkCallBack(
+          validator[1](object[validator[0]], vs),
+          invalids.push,
+          validator[0]
+        )
+      ) {
+        if (object[validator[0]] === undefined) continue;
+        valids[validator[0]] = object[validator[0]];
       }
-
-      if (object[validator[0]] === undefined) continue;
-      valids[validator[0]] = object[validator[0]];
     }
 
     if (validator instanceof Object && !Array.isArray(validator)) {
@@ -72,13 +75,16 @@ function validate(
         continue;
       }
 
-      if (!validator.validate(object[validator.property], vs)) {
-        invalids.push(validator.property);
-        continue;
+      if (
+        checkCallBack(
+          validator.validate(object[validator.property], vs),
+          invalids.push,
+          validator.property
+        )
+      ) {
+        if (object[validator.property] === undefined) continue;
+        valids[validator.property] = object[validator.property];
       }
-
-      if (object[validator.property] === undefined) continue;
-      valids[validator.property] = object[validator.property];
     }
   }
 
