@@ -1,4 +1,59 @@
-import { FailInterface, ValidatorType, PassInterface } from "./types";
+type ValidatorType = string | [string, ValidatorCallBack] | ObjectValidator;
+
+type ValidatorCallBack = (
+  value: any,
+  validate: (
+    object: any,
+    validators: ValidatorType[],
+    error?: string
+  ) => boolean | string
+) => boolean | string;
+
+interface ObjectValidator {
+  property: string;
+  validate: ValidatorCallBack;
+}
+
+interface FailInterface {
+  missing: string[];
+  invalid: { property: string; error: string }[];
+  valid: false;
+  checked: null;
+}
+
+interface PassInterface {
+  missing: null;
+  invalid: null;
+  valid: true;
+  checked: { [key: string]: any };
+}
+
+function HOC(
+  property: string,
+  type: "string" | "number" | "undefined" | "object" | "boolean",
+  strict: boolean
+): ValidatorType {
+  return [
+    property,
+    (value) => {
+      if (!strict && value === undefined) return true;
+      if (typeof value === type) return true;
+      return `'${property}' value is not valid ${type}!`;
+    },
+  ];
+}
+
+export function isString(name: string, strict = true) {
+  return HOC(name, "string", strict);
+}
+
+export function isNumber(name: string, strict = true) {
+  return HOC(name, "number", strict);
+}
+
+export function isBoolean(name: string, strict = true) {
+  return HOC(name, "boolean", strict);
+}
 
 function vs(
   object: any,
@@ -29,7 +84,7 @@ function checkCallBack(
   throw new Error("validation function only can return boolean or string!");
 }
 
-function validate(
+export function validate(
   object: any,
   validators: ValidatorType[],
   config = { strict: true }
@@ -105,5 +160,3 @@ function validate(
 
   return { valid: true, checked: valids, missing: null, invalid: null };
 }
-
-export default validate;
