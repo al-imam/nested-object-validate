@@ -21,7 +21,7 @@ npm install
 ## how to use it
 
 ```typescript
-import validate from "nested-object-validate";
+import { validate, isString } from "nested-object-validate";
 
 /*
   validate function takes 3 argument
@@ -60,7 +60,7 @@ validate({ name: 54 }, [["name", (name) => typeof name === "string"]]);
 */
 
 validate({ name: { first: "al", last: "imam" } }, [
-  ["name", (name, v) => v(name, ["first", "last"])],
+  ["name", (name, v) => v(name, [isString("first"), isString("last")])],
 ]);
 /*
   test pass you can ensure first and last exist
