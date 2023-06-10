@@ -15,7 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && mv ./dist/esm/index.js ./dist/esm/index.mjs && tsc -p tsconfig-cjs.json && mv ./dist/cjs/index.js ./dist/cjs/index.cjs"
+    "prepare": "tsc -p tsconfig.json && mv ./dist/esm/index.js ./dist/esm/index.mjs && tsc -p tsconfig-cjs.json && mv ./dist/cjs/index.js ./dist/cjs/index.cjs"
   },
   "author": {
     "email": "alimam01828@gmail.com",

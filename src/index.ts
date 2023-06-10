@@ -1,6 +1,9 @@
-type ValidatorType = string | [string, ValidatorCallBack] | ObjectValidator;
+export type ValidatorType =
+  | string
+  | [string, ValidatorCallBack]
+  | ObjectValidator;
 
-type ValidatorCallBack = (
+export type ValidatorCallBack = (
   value: any,
   validate: (
     object: any,
@@ -9,7 +12,7 @@ type ValidatorCallBack = (
   ) => boolean | string
 ) => boolean | string;
 
-interface ObjectValidator {
+export interface ObjectValidator {
   property: string;
   validate: ValidatorCallBack;
 }
@@ -30,12 +33,12 @@ interface PassInterface {
 
 function HOC(
   property: string,
-  type: "string" | "number" | "undefined" | "object" | "boolean",
+  type: "string" | "number" | "object" | "boolean",
   strict: boolean
 ): ValidatorType {
   return [
     property,
-    (value) => {
+    function (value) {
       if (!strict && value === undefined) return true;
       if (typeof value === type) return true;
       return `'${property}' value is not valid ${type}!`;
@@ -54,7 +57,7 @@ export function isNumber(
 ): ValidatorType {
   return [
     name,
-    (value) => {
+    function (value) {
       if (!strict && value === undefined) return true;
       if (typeof value === "number") return true;
       if (checkString && typeof value === "string") {
@@ -69,6 +72,19 @@ export function isNumber(
 
 export function isBoolean(name: string, strict = true) {
   return HOC(name, "boolean", strict);
+}
+
+export function ignoreUndefined(
+  name: string,
+  callback: (value: any, validate: typeof vs) => boolean | string
+): ValidatorType {
+  return [
+    name,
+    function (value, validate) {
+      if (value === undefined) return true;
+      return callback(value, validate);
+    },
+  ];
 }
 
 function vs(
