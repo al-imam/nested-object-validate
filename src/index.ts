@@ -47,8 +47,24 @@ export function isString(name: string, strict = true) {
   return HOC(name, "string", strict);
 }
 
-export function isNumber(name: string, strict = true) {
-  return HOC(name, "number", strict);
+export function isNumber(
+  name: string,
+  checkString = false,
+  strict = true
+): ValidatorType {
+  return [
+    name,
+    (value) => {
+      if (!strict && value === undefined) return true;
+      if (typeof value === "number") return true;
+      if (checkString && typeof value === "string") {
+        const num = parseFloat(value as string);
+        if (!isNaN(num)) return true;
+      }
+
+      return `'${name}' value is not valid number!`;
+    },
+  ];
 }
 
 export function isBoolean(name: string, strict = true) {
